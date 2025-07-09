@@ -10,6 +10,8 @@ interface Props {
   size?: [number, number, number]
   isAnySectonOpen?: boolean
   tooltipOffset?: [number, number, number]
+  tooltipRotation?: [number, number, number]
+  tooltipScale?: number // ✅ Added scale prop
 }
 
 const tooltipData: Record<string, { text: string; icon: string }> = {
@@ -28,7 +30,9 @@ export default function ClickableBox({
   onSelect,
   size = [0.3, 0.3, 0.3],
   isAnySectonOpen = false,
-  tooltipOffset = [0, 0, 0], // ✅ Default offset
+  tooltipOffset = [0, size[1] + 0.4, 0],
+  tooltipRotation = [0, 0, 0],
+  tooltipScale = 1, // ✅ Default scale
 }: Props) {
   const [hovered, setHovered] = useState(false)
 
@@ -39,14 +43,16 @@ export default function ClickableBox({
     }
   }, [hovered])
 
-  // ✅ Calculate tooltip position using tooltipOffset
   const tooltipPosition: [number, number, number] = [
     position[0] + tooltipOffset[0],
-    position[1] + tooltipOffset[1] || position[1] + size[1] + 0.4,
+    position[1] + tooltipOffset[1],
     position[2] + tooltipOffset[2],
   ]
 
-  const tooltipInfo = tooltipData[label] || { text: `VIEW ${label.toUpperCase()}`, icon: "✨" }
+  const tooltipInfo = tooltipData[label] || {
+    text: `VIEW ${label.toUpperCase()}`,
+    icon: "✨",
+  }
 
   return (
     <>
@@ -63,16 +69,15 @@ export default function ClickableBox({
         <meshBasicMaterial transparent opacity={0} />
       </mesh>
 
-      {/* ✅ Tooltip only when not open and hovered (optional toggle) */}
-      {!isAnySectonOpen && (
-
-        <FloatingTooltip
-          position={tooltipPosition}
-          text={tooltipInfo.text}
-          icon={tooltipInfo.icon}
-          visible={true}
-        />
-      )}
+      {/* Tooltip - only visible when no section is open */}
+      <FloatingTooltip
+        position={tooltipPosition}
+        text={tooltipInfo.text}
+        icon={tooltipInfo.icon}
+        visible={!isAnySectonOpen}
+        rotation={tooltipRotation}
+        scale={tooltipScale} // ✅ Fixed
+      />
     </>
   )
 }
