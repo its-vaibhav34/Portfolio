@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useRef } from "react"
 import { sections } from "../data"
+// import Image from "next/image" // REMOVE this line
 
 interface Skill {
   name: string
   icon: string
+  logo?: string
   color: string
   category: string
 }
@@ -13,6 +15,7 @@ interface Skill {
 export default function SkillsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All")
   const [visibleSkills, setVisibleSkills] = useState<number[]>([])
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set())
   const skillRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const skills = sections.skills as Skill[]
@@ -26,13 +29,11 @@ export default function SkillsSection() {
         entries.forEach((entry) => {
           const index = Number.parseInt(entry.target.getAttribute("data-index") || "0")
           if (entry.isIntersecting) {
-            setTimeout(() => {
-              setVisibleSkills((prev) => [...prev, index])
-            }, index * 100) // Reduced delay for smoother performance
+            setVisibleSkills((prev) => (prev.includes(index) ? prev : [...prev, index]))
           }
         })
       },
-      { threshold: 0.3 },
+      { threshold: 0.1 },
     )
 
     skillRefs.current.forEach((ref) => {
@@ -42,101 +43,110 @@ export default function SkillsSection() {
     return () => observer.disconnect()
   }, [filteredSkills])
 
+  const handleImageError = (index: number) => {
+    setImageErrors((prev) => new Set([...prev, index]))
+  }
+
   return (
     <div className="relative">
-      {/* Optimized background - reduced particles for performance */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-        <svg className="w-full h-full" viewBox="0 0 800 600">
-          {[...Array(8)].map((_, i) => (
-            <g key={i}>
-              <circle
-                cx={Math.random() * 800}
-                cy={Math.random() * 600}
-                r="2"
-                fill="currentColor"
-                className="text-cyan-400 animate-pulse"
-              />
-              <line
-                x1={Math.random() * 800}
-                y1={Math.random() * 600}
-                x2={Math.random() * 800}
-                y2={Math.random() * 600}
-                stroke="currentColor"
-                strokeWidth="0.5"
-                className="text-cyan-400/30"
-              />
-            </g>
-          ))}
-        </svg>
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 pointer-events-none" />
 
-      {/* Category filter */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-4 mb-8">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-6 py-3 rounded-full border-2 transition-all duration-300 hover:scale-105 ${
+            className={`px-4 py-2 rounded-full border transition-colors duration-200 ${
               selectedCategory === category
-                ? "border-cyan-400 bg-cyan-400/20 text-cyan-400 shadow-lg shadow-cyan-400/25"
-                : "border-cyan-400/30 text-gray-400 hover:border-cyan-400/60 hover:text-cyan-400"
+                ? "border-cyan-400 bg-cyan-400/20 text-cyan-400"
+                : "border-cyan-400/30 text-gray-400 hover:border-cyan-400/60"
             }`}
           >
-            <span className="font-semibold tracking-wide">{category}</span>
+            {category}
           </button>
         ))}
       </div>
 
-      {/* Skills grid - optimized layout */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {filteredSkills.map((skill, index) => (
           <div
             key={skill.name}
-            ref={(el) => {
-  skillRefs.current[index] = el
-}}
-
+            ref={(el) => (skillRefs.current[index] = el)}
             data-index={index}
-            className={`group relative transition-all duration-500 ${
-              visibleSkills.includes(index) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            className={`group relative transition-opacity duration-200 ${
+              visibleSkills.includes(index) ? "opacity-100" : "opacity-0"
             }`}
           >
-            {/* Simplified skill card for better performance */}
             <div
-              className="relative p-6 rounded-2xl border border-cyan-400/30 backdrop-blur-xl
+              className="relative p-6 rounded-xl border border-cyan-400/30 backdrop-blur-sm
                          bg-gradient-to-br from-black/60 to-cyan-900/20
-                         hover:from-black/80 hover:to-cyan-900/40
-                         transition-all duration-300 hover:scale-105 hover:-translate-y-2
-                         cursor-pointer hover:shadow-xl hover:shadow-cyan-500/25"
+                         hover:from-black/80 hover:to-cyan-900/30
+                         transition-all duration-300 hover:scale-105 cursor-pointer
+                         hover:shadow-lg hover:shadow-cyan-500/25 group"
             >
-              {/* Skill icon */}
-              <div className="text-center mb-4">
-                <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {skill.icon}
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-400/0 via-cyan-400/10 to-cyan-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 relative flex items-center justify-center">
+                  {skill.logo && !imageErrors.has(index) ? (
+                    <div className="relative w-full h-full group-hover:scale-110 transition-transform duration-300">
+                      <img
+                        src={skill.logo || "/placeholder.svg"}
+                        alt={`${skill.name} logo`}
+                        className="object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300 w-full h-full"
+                        onError={() => handleImageError(index)}
+                        style={{ width: "64px", height: "64px" }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                    </div>
+                  ) : (
+                    <div className="text-4xl group-hover:scale-110 transition-transform duration-300 relative">
+                      {skill.icon}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+                    </div>
+                  )}
                 </div>
-                <h3 className={`text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r ${skill.color}`}>
+
+                <h3 className={`text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r ${skill.color} mb-2`}>
                   {skill.name}
                 </h3>
-              </div>
 
-              {/* Category badge */}
-              <div className="text-center">
-                <span
-                  className="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 
-                                 text-cyan-400 text-xs font-semibold border border-cyan-400/30"
-                >
+                <span className="inline-block px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-xs border border-cyan-400/30">
                   {skill.category}
                 </span>
-              </div>
 
-              {/* Simplified hover effect */}
-              <div
-                className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/10 to-purple-500/10 
-                              opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              />
+                <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-cyan-400/50 transition-colors duration-300" />
+
+                <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-scan" />
+              </div>
+            </div>
+
+            <div className="mt-2 flex justify-center">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
+                      i < Math.floor(Math.random() * 3) + 3
+                        ? "bg-cyan-400 group-hover:bg-cyan-300"
+                        : "bg-gray-600 group-hover:bg-gray-500"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-12 text-center">
+        <div className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30">
+          <span className="text-cyan-400 font-semibold">Total Skills:</span>
+          <span className="text-white font-bold text-lg">{skills.length}</span>
+          <span className="text-gray-400">|</span>
+          <span className="text-purple-400 font-semibold">Categories:</span>
+          <span className="text-white font-bold text-lg">{categories.length - 1}</span>
+        </div>
       </div>
     </div>
   )
