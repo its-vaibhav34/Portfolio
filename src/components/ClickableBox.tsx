@@ -22,6 +22,7 @@ const tooltipData: Record<string, { text: string; icon: string }> = {
   certificates: { text: "CERTIFICATES", icon: "🖼️" },
   achievements: { text: "MY ACHIEVEMENTS", icon: "🏆" },
   experience: { text: "EXPERIENCE", icon: "💼" },
+  
 }
 
 export default function ClickableBox({

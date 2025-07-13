@@ -2,13 +2,13 @@
 // Update this file to customize all your portfolio content
 
 export const personalInfo = {
-  name: "Your Name",
+  name: "Vaibhav", // Updated name
   title: "Full Stack Developer & 3D Artist",
-  bio: "I am a passionate developer working on creative web & 3D projects, specializing in cutting-edge technologies and innovative user experiences.",
+  bio: "I craft intuitive user experiences and design elegant interfaces.", // Updated bio
   location: "Your City, Country",
   profileImage: "/placeholder.svg?height=400&width=400", // Add your profile image path here
   resume: "/resume.pdf", // Add your resume file path here
-}
+};
 
 export const sections = {
   // 💼 PROJECTS SECTION
@@ -361,7 +361,7 @@ export const sections = {
     workshops: "15+",
     mentees: "50+",
   },
-}
+};
 
 // 🎨 THEME CONFIGURATION
 export const theme = {
@@ -377,7 +377,7 @@ export const theme = {
     duration: "300ms",
     easing: "ease-out",
   },
-}
+};
 
 // 🔧 CONFIGURATION
 export const config = {
@@ -386,4 +386,4 @@ export const config = {
   enableSoundEffects: false,
   autoPlayAnimations: true,
   reducedMotion: false,
-}
+};

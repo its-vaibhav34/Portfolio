@@ -71,7 +71,10 @@ export default function SkillsSection() {
         {filteredSkills.map((skill, index) => (
           <div
             key={skill.name}
-            ref={(el) => (skillRefs.current[index] = el)}
+            ref={(el) => {
+  skillRefs.current[index] = el
+}}
+
             data-index={index}
             className={`group relative transition-opacity duration-200 ${
               visibleSkills.includes(index) ? "opacity-100" : "opacity-0"
