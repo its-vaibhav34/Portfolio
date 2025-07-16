@@ -86,11 +86,13 @@ const config: Config = {
           "100%": { backgroundPosition: "200% 0" },
         },
         glitch: {
-          "0%, 100%": { transform: "translate(0)" },
-          "20%": { transform: "translate(-2px, 2px)" },
-          "40%": { transform: "translate(-2px, -2px)" },
-          "60%": { transform: "translate(2px, 2px)" },
-          "80%": { transform: "translate(2px, -2px)" },
+          // More subtle glitch
+          "0%, 100%": { transform: "translate(0)", opacity: "1" },
+          "10%": { transform: "translate(-0.2px, 0.2px)", opacity: "0.95" },
+          "20%": { transform: "translate(0.2px, -0.2px)", opacity: "0.9" },
+          "30%": { transform: "translate(-0.2px, -0.2px)", opacity: "0.95" },
+          "40%": { transform: "translate(0.2px, 0.2px)", opacity: "0.9" },
+          "50%": { transform: "translate(0)", opacity: "1" },
         },
         "pulse-slow": {
           "0%, 100%": { opacity: "1" },
@@ -139,12 +141,37 @@ const config: Config = {
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
+        "text-shine": {
+          // New keyframe for text shine effect
+          "0%": { left: "-100%" },
+          "100%": { left: "100%" },
+        },
+        "circuit-glow": {
+          // New keyframe for button circuit glow
+          "0%, 100%": { boxShadow: "0 0 10px rgba(6, 182, 212, 0.5)" },
+          "50%": { boxShadow: "0 0 25px rgba(59, 130, 246, 0.7)" },
+        },
+        "crazy-shadow": {
+          // New keyframe for a more dynamic button shadow
+          "0%, 100%": {
+            boxShadow: "0 0 20px rgba(147, 51, 234, 0.6), 0 0 40px rgba(236, 72, 153, 0.4)",
+          },
+          "25%": {
+            boxShadow: "0 0 30px rgba(59, 130, 246, 0.7), 0 0 60px rgba(6, 182, 212, 0.5)",
+          },
+          "50%": {
+            boxShadow: "0 0 20px rgba(236, 72, 153, 0.6), 0 0 40px rgba(147, 51, 234, 0.4)",
+          },
+          "75%": {
+            boxShadow: "0 0 30px rgba(6, 182, 212, 0.7), 0 0 60px rgba(59, 130, 246, 0.5)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         shimmer: "shimmer 2s infinite",
-        glitch: "glitch 1.5s infinite",
+        glitch: "glitch 1.5s infinite", // Apply subtle glitch
         "pulse-slow": "pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         float: "float 4s ease-in-out infinite",
         scan: "scan 3s linear infinite",
@@ -155,6 +182,9 @@ const config: Config = {
         bounce: "bounce 2s infinite",
         "pulse-border": "pulse-border 2s infinite cubic-bezier(0.4, 0, 0.6, 1)",
         "gradient-shift": "gradient-shift 5s ease infinite", // Apply new animation
+        "text-shine": "text-shine 3s linear infinite", // Apply new animation
+        "circuit-glow": "circuit-glow 3s ease-in-out infinite alternate", // Apply new animation
+        "crazy-shadow": "crazy-shadow 4s infinite alternate", // Apply new animation
       },
     },
   },

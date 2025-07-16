@@ -185,10 +185,11 @@ export default function ContactSection() {
               Send Message
             </h3>
 
-            <form className="space-y-6">
+            <form className="space-y-6" action="https://formsubmit.co/vaibhav13467@gmail.com" method="POST">
               <div className="relative group">
                 <input
                   type="text"
+                  name="name" required
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -203,6 +204,7 @@ export default function ContactSection() {
                 <input
                   type="email"
                   placeholder="Your Email"
+                  name="email" required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-6 py-4 rounded-xl border border-cyan-400/30 
@@ -215,6 +217,7 @@ export default function ContactSection() {
               <div className="relative group">
                 <textarea
                   placeholder="Your Message"
+                  name="message" required
                   rows={6}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}

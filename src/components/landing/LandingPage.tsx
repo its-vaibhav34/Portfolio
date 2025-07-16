@@ -45,18 +45,14 @@ export default function LandingPage({ onEnterNeuroverse }: LandingPageProps) {
         {/* CTA Button - Super Crazy Design */}
         <button
           onClick={onEnterNeuroverse}
-          className="relative px-10 py-4 rounded-full text-xl font-bold uppercase tracking-widest
-                     bg-gradient-to-br from-purple-700 via-fuchsia-700 to-cyan-700 text-white
-                     overflow-hidden group transition-all duration-700 ease-in-out
-                     hover:from-purple-600 hover:via-fuchsia-600 hover:to-cyan-600 hover:scale-105
-                     shadow-lg shadow-purple-500/40 hover:shadow-fuchsia-400/60
-                     border border-purple-500/60 hover:border-cyan-400/60
-                     animate-pulse-border
-                     transform-gpu perspective-[1000px] hover:rotateX-3 hover:rotateY-3"
-          style={{
-            backgroundSize: "200% 200%",
-            animation: "gradient-shift 5s ease infinite, pulse-border 2s infinite cubic-bezier(0.4, 0, 0.6, 1)",
-          }}
+         className="relative px-10 py-4 rounded-full text-xl font-bold uppercase tracking-widest
+           bg-gradient-to-br from-purple-700 via-fuchsia-700 to-cyan-700 text-white
+           overflow-hidden group transition-all duration-700 ease-in-out
+           hover:from-purple-600 hover:via-fuchsia-600 hover:to-cyan-600 hover:scale-105
+           border border-purple-500/60 hover:border-cyan-400/60
+           animate-gradient-shift transform-gpu perspective-[1000px]
+           hover:rotate-x-3 hover:rotate-y-3 hover:skew-x-1 text-shadow-neon"
+
         >
           <span className="relative z-10 flex items-center gap-3">
             ACCESS NEURO-PORTFOLIO

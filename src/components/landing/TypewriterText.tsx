@@ -22,7 +22,8 @@ export default function TypewriterText({
   const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>
+   let timer: ReturnType<typeof setTimeout>
+
 
     const handleTyping = () => {
       const fullText = phrases[currentPhraseIndex]
@@ -55,7 +56,7 @@ export default function TypewriterText({
   return (
     <span className="font-mono text-lg md:text-xl text-gray-300">
       {prefix}
-      <span className="text-cyan-400">{currentTypedText}</span>
+      <span className="text-cyan-400 text-shadow-soft-glow">{currentTypedText}</span>
       <span className="blink-cursor"></span>
     </span>
   )
