@@ -181,12 +181,12 @@ export const sections = {
 
   // 📞 CONTACT SECTION
   contact: {
-    email: "vaibhav@example.com",
-    linkedin: "https://linkedin.com/in/vaibhavpandey",
-    github: "https://github.com/vaibhav",
+    email: "vaibhav13467@gmail.com",
+    linkedin: "https://www.linkedin.com/in/vaibhav-pandey-02794932b/",
+    github: "https://github.com/its-vaibhav34",
     twitter: "https://twitter.com/vaibhav",
-    phone: "+91 9876543210",
-    location: "Your City, Country",
+    phone: "+91 6239887641",
+    location: "Mohali, India",
     availability: "Available for freelance work",
   },
 
