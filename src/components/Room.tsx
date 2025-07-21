@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function Room({ onSelect, isAnySectonOpen = false }: Props) {
-  const { scene } = useGLTF("/3droom.glb") as { scene: Group }
+  const { scene } = useGLTF("/3droom2.glb") as { scene: Group }
 
   useEffect(() => {
     scene.traverse((child: any) => {
